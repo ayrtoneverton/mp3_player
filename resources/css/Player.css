@@ -1,0 +1,56 @@
+
+#addDir{
+  -fx-graphic: url('../images/dir.png');
+}
+#addDir:pressed{
+  -fx-graphic: url('../images/dir2.png');
+}
+
+#addFile{
+  -fx-graphic: url('../images/file.png');
+}
+#addFile:pressed{
+  -fx-graphic: url('../images/file2.png');
+}
+
+#logout{
+  -fx-graphic: url('../images/logout.png');
+}
+#logout:pressed{
+  -fx-graphic: url('../images/logout2.png');
+}
+
+#gerirUsers{
+  -fx-graphic: url('../images/user.png');
+}
+#gerirUsers:pressed{
+  -fx-graphic: url('../images/user2.png');
+}
+
+#play{
+  -fx-graphic: url('../images/play.png');
+}
+#play:pressed{
+  -fx-graphic: url('../images/play2.png');
+}
+
+#pause{
+  -fx-graphic: url('../images/pause.png');
+}
+#pause:pressed{
+  -fx-graphic: url('../images/pause2.png');
+}
+
+#previous{
+  -fx-graphic: url('../images/previous.png');
+}
+#previous:pressed{
+  -fx-graphic: url('../images/previous2.png');
+}
+
+#next{
+  -fx-graphic: url('../images/next.png');
+}
+#next:pressed{
+  -fx-graphic: url('../images/next2.png');
+}
