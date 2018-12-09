@@ -1,6 +1,6 @@
 package com.player.model;
 
-import com.player.controller.Util;
+import com.player.Util;
 
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -18,11 +18,13 @@ public class CreateMediaPlayerException extends Exception {
 	/**
 	 * Indica se a aplicacao deve continuar tentando para as proximas musicas
 	 */
+	//@ spec_public
 	private boolean testNext;
 
 	/**
 	 * CONSTRUTOR
 	 */
+	//@ assignable this.testNext;
 	public CreateMediaPlayerException(String url) {
 		Alert alert = new Alert(AlertType.CONFIRMATION);
 		Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
@@ -37,6 +39,8 @@ public class CreateMediaPlayerException extends Exception {
         testNext = next == alert.showAndWait().get();
 	}
 
+	//@ ensures \result == testNext;
+	//@ pure
 	public boolean isTestNext() {
 		return testNext;
 	}

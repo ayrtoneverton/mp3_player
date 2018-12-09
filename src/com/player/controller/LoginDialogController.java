@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
 
+import com.player.Util;
 import com.player.model.AbstractController;
 import com.player.model.User;
 
@@ -12,23 +13,25 @@ import com.player.model.User;
  * Dialog to login.
  */
 public class LoginDialogController extends AbstractController {
-
+	//@ nullable
     @FXML
     private TextField loginField;
+	//@ nullable
     @FXML
     private TextField senhaField;
+	//@ nullable
     @FXML
     private CheckBox lembrarField;
 
+	//@ spec_public nullable
     private User user;
+	//@ spec_public nullable
     private ObservableList<User> users;
-
-	@FXML
-    private void initialize() {}
 
     /**
      * Ao clicar em Logar
      */
+	//@ pure
     @FXML
     private void logar() {
     	if (loginField.getText() == null || loginField.getText().isEmpty()) {
@@ -52,11 +55,16 @@ public class LoginDialogController extends AbstractController {
     }
 
 	/* GETs and SETs */
-    
+
+	//@ ensures \result == user;
+	//@ pure nullable
 	public User getUser() {
 		return user;
 	}
 
+	//@ requires users != null;
+	//@ assignable this.users;
+	//@ ensures this.users == users;
     public void setUsers(ObservableList<User> users) {
 		this.users = users;
 	}

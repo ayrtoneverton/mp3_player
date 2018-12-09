@@ -6,22 +6,28 @@ import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 
+import com.player.Util;
 import com.player.model.AbstractController;
 import com.player.model.User;
 
 public class RootUserController extends AbstractController {
+	//@ nullable
     @FXML
     private TableView<User> userTable;
+	//@ nullable
     @FXML
     private TableColumn<User, String> nameColumn;
+	//@ nullable
     @FXML
     private TableColumn<User, String> typeColumn;
 
+	//@ spec_public nullable
     private ObservableList<User> users;
 
     /**
      * Responsavel por inicializar componentes e eventos da view
      */
+	//@ pure
     @FXML
     private void initialize() {
     	// Initializar tabelas
@@ -34,6 +40,9 @@ public class RootUserController extends AbstractController {
      * 
      * @param users
      */
+	//@ requires users != null;
+	//@ assignable this.users;
+	//@ ensures this.users == users;
     public void setUsers(ObservableList<User> users) {
         this.users = users;
 
@@ -42,6 +51,7 @@ public class RootUserController extends AbstractController {
         	userTable.getSelectionModel().selectFirst();
     }
 
+	//@ pure
 	@FXML
 	private void deleteUser() {
 		if(userTable.getSelectionModel() != null) {
@@ -51,6 +61,7 @@ public class RootUserController extends AbstractController {
 		}
 	}
 
+	//@ pure
 	@FXML
 	private void newUser() {
 		User tempUser = new User();
@@ -61,15 +72,16 @@ public class RootUserController extends AbstractController {
 		}
 	}
 
+	//@ pure
 	@FXML
 	private void editUser() {
 		if(userTable.getSelectionModel() != null) {
-			User selectedUser = userTable.getSelectionModel().getSelectedItem();
-			showUserDialog(selectedUser);
+			showUserDialog(userTable.getSelectionModel().getSelectedItem());
 			userTable.refresh();
 		}
 	}
 
+	//@ pure
 	private boolean showUserDialog(User user){
 		try {
 			UserDialogController controller = getInstance(UserDialogController.class, stage);
@@ -80,7 +92,6 @@ public class RootUserController extends AbstractController {
 
 			return controller.isOk();
 		} catch (Exception e) {
-			e.printStackTrace();
 			return false;
 		}
 	}

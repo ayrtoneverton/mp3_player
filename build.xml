@@ -24,6 +24,10 @@
 			name="MP3 Player"
 			mainClass="com.player.MainApp"
 		/>
+		
+		<delete dir="classes" includes="**/*.class"/>
+		<javac includeantruntime="false" source="1.8" target="1.8" 
+			srcdir="src" destdir="classes" encoding="Cp1252"/>
 
 		<delete dir="build"/>
 

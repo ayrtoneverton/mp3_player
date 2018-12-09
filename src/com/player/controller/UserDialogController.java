@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 
+import com.player.Util;
 import com.player.model.AbstractController;
 import com.player.model.TypeUser;
 import com.player.model.User;
@@ -13,22 +14,27 @@ import com.player.model.User;
  * Dialog to edit details of a user.
  */
 public class UserDialogController extends AbstractController {
-
+	//@ nullable
     @FXML
     private TextField nameField;
+	//@ nullable
     @FXML
     private TextField loginField;
+	//@ nullable
     @FXML
     private TextField senhaField;
+	//@ nullable
     @FXML
     private ComboBox<TypeUser> typeCombo;
 
+	//@ spec_public nullable
     private User user;
 
     /**
      * Initializes the controller class. This method is automatically called
      * after the fxml file has been loaded.
      */
+    //@ pure
     @FXML
     private void initialize() {
     	typeCombo.setItems(FXCollections.observableArrayList(TypeUser.values()));
@@ -38,6 +44,9 @@ public class UserDialogController extends AbstractController {
      * Sets the user to be edited in the dialog.
      * @param user
      */
+	//@ requires user != null;
+	//@ assignable this.user;
+	//@ ensures this.user == user;
     public void setUser(User user) {
         this.user = user;
         if(user.getId() > 0)
@@ -51,6 +60,7 @@ public class UserDialogController extends AbstractController {
     /**
      * Called when the user clicks ok.
      */
+	//@ assignable this.ok;
     @FXML
     private void onOk() {
         if (isInputsValid()) {
@@ -70,6 +80,7 @@ public class UserDialogController extends AbstractController {
      * 
      * @return true if the input is valid
      */
+    //@ pure
     private boolean isInputsValid() {
         String errorMessage = "";
 

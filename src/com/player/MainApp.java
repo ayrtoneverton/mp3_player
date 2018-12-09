@@ -10,10 +10,8 @@ import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
-import com.player.controller.DAO;
 import com.player.controller.LoginDialogController;
 import com.player.controller.PlayerController;
-import com.player.controller.Util;
 import com.player.model.Music;
 import com.player.model.PlayList;
 import com.player.model.TypeUser;
@@ -23,29 +21,35 @@ import com.player.model.User;
  * Classe inicial da aplicacao
  */
 public class MainApp extends Application {
-
+	//@ spec_public nullable
 	private Stage primaryStage;
 
 	/**
 	 * Lista de todos os usuarios
 	 */
-	private ObservableList<User> users = FXCollections.observableArrayList();
+	//@ spec_public non_null
+	private final ObservableList<User> users = FXCollections.observableArrayList();
 
 	/**
 	 * Lista de todos os musicas
 	 */
-	private ObservableList<Music> musics = FXCollections.observableArrayList();
+	//@ spec_public non_null
+	private final ObservableList<Music> musics = FXCollections.observableArrayList();
 
 	/**
 	 * Lista de todos os musicas
 	 */
-	private ObservableList<PlayList> playLists = FXCollections.observableArrayList();
+	//@ spec_public non_null
+	private final ObservableList<PlayList> playLists = FXCollections.observableArrayList();
 
 	/**
 	 * Usuario logado
 	 */
+	//@ spec_public nullable
 	private User user;
 
+	//@ assignable primaryStage, user;
+	//@ ensures this.primaryStage == primaryStage;
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		this.primaryStage = primaryStage;
@@ -72,7 +76,8 @@ public class MainApp extends Application {
 			showPlayer();
 		}
 	}
-	
+
+	//@ pure
 	@Override
 	public void stop() throws Exception {
 		if(user != null) {
@@ -94,6 +99,7 @@ public class MainApp extends Application {
 	 * @return User
 	 * @throws IOException 
 	 */
+	//@ pure nullable
 	private User showLoginDialog() throws IOException {
 		LoginDialogController controller = LoginDialogController.getInstance(LoginDialogController.class, primaryStage);
 		controller.setUsers(users);
@@ -106,6 +112,8 @@ public class MainApp extends Application {
 	 * 
 	 * @throws IOException 
 	 */
+	//@ requires user != null;
+	//@ pure
 	private void showPlayer() throws IOException {
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(MainApp.class.getResource("view/Player.fxml"));
@@ -123,6 +131,7 @@ public class MainApp extends Application {
 	/**
 	 * Sair do App e fechar
 	 */
+	//@ pure
 	public void exit(){
 		user.setRememberPass(false);
 		primaryStage.close();
@@ -130,22 +139,32 @@ public class MainApp extends Application {
 
 	/* GETs and SETs and MAIN */
 
+	//@ ensures \result == primaryStage;
+	//@ pure
 	public Stage getPrimaryStage() {
 		return primaryStage;
 	}
 
+	//@ ensures \result == users;
+	//@ pure
 	public ObservableList<User> getUsers() {
 		return users;
 	}
 
+	//@ ensures \result == user;
+	//@ pure
 	public User getUser() {
 		return user;
 	}
 
+	//@ ensures \result == musics;
+	//@ pure
 	public ObservableList<Music> getMusics() {
 		return musics;
 	}
 
+	//@ ensures \result == playLists;
+	//@ pure
 	public ObservableList<PlayList> getPlayLists() {
 		return playLists;
 	}

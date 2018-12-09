@@ -29,6 +29,7 @@ import javafx.util.Callback;
 import javafx.util.Duration;
 
 import com.player.MainApp;
+import com.player.Util;
 import com.player.model.AbstractController;
 import com.player.model.CreateMediaPlayerException;
 import com.player.model.Music;
@@ -39,34 +40,44 @@ import com.player.model.Playable;
  * Classe de controle visual principal, reponsavel por gerenciar e reproduzir musicas e plylists.
  */
 public class PlayerController extends AbstractController {
+	//@ nullable
     @FXML
     private TableView<Music> musicTable;
+	//@ nullable
     @FXML
     private TableColumn<Music, String> musicColumn;
+	//@ nullable
     @FXML
     private TableView<PlayList> playListTable;
+	//@ nullable
     @FXML
     private TableColumn<PlayList, String> playListColumn;
+	//@ nullable
     @FXML
     private TableView<Music> playTable;
+	//@ nullable
     @FXML
     private TableColumn<Music, String> playColumn;
+	//@ nullable
     @FXML
     private Slider progress;
 
     /**
      * Reference to the main application
      */
+	//@ spec_public nullable
     private MainApp mainApp;
 
     /**
      * Player reprodutor de MP3
      */
+	//@ spec_public nullable
     private MediaPlayer player;
 
     /**
      * Responsavel por inicializar componentes e eventos da view
      */
+	//@ pure
     @FXML
     private void initialize() {
     	// Initializar tabelas
@@ -103,6 +114,9 @@ public class PlayerController extends AbstractController {
      * 
      * @param mainApp
      */
+	//@ requires mainApp != null;
+	//@ assignable this.mainApp;
+	//@ ensures this.mainApp == mainApp;
     public void initPlayer(MainApp mainApp) {
         this.mainApp = mainApp;
 
@@ -135,6 +149,7 @@ public class PlayerController extends AbstractController {
     /**
      * Responsavel por atalizar a lista de reproducao atual
      */
+	//@ assignable this.player;
     private void play(Playable playable) {
     	PlayList playList = playable.getPlayList();
     	if(playList.getId() == 0)
@@ -149,6 +164,7 @@ public class PlayerController extends AbstractController {
     /**
      * Responsavel por reproduzir a partir do ponto selecionado da lista
      */
+	//@ assignable this.player;
     private void selectPlay() {
     	stop();
     	playPause();
@@ -157,6 +173,7 @@ public class PlayerController extends AbstractController {
     /**
      * Responsavel por iniciar e pausar a reproducao da musica
      */
+	//@ assignable this.player;
     @FXML
     private void playPause() {
     	if(playTable.getItems().isEmpty())
@@ -189,6 +206,8 @@ public class PlayerController extends AbstractController {
     /**
      * Responsavel por parar a reproducao da musica
      */
+	//@ assignable this.player;
+	//@ ensures this.player == null;
     @FXML
     private void stop() {
     	if(player != null) {
@@ -200,6 +219,7 @@ public class PlayerController extends AbstractController {
     /**
      * Responsavel por pular para proxima musica
      */
+	//@ pure
     @FXML
     private void previous() {
     	playTable.getSelectionModel().selectPrevious();
@@ -208,6 +228,7 @@ public class PlayerController extends AbstractController {
     /**
      * Responsavel por voltar para musica anterior
      */
+	//@ pure
     @FXML
     private void next() {
     	playTable.getSelectionModel().selectNext();
@@ -216,6 +237,7 @@ public class PlayerController extends AbstractController {
     /**
      * Criar novo player
      */
+	//@ assignable this.player;
     @SuppressWarnings({ "unchecked", "rawtypes" })
 	private void createMediaPlayer() throws CreateMediaPlayerException {
     	try {
@@ -233,6 +255,7 @@ public class PlayerController extends AbstractController {
     /**
      * Atuaizar barra de progresso
      */
+	//@ pure
     private void updateSlider() {
         if (player != null && player.getTotalDuration() != null) {
             Platform.runLater(new Runnable() {
@@ -251,6 +274,7 @@ public class PlayerController extends AbstractController {
         }
     }
 
+	//@ pure
     @FXML
     private void createPlayList() {
     	if(!musicTable.getItems().isEmpty()) {
@@ -265,6 +289,7 @@ public class PlayerController extends AbstractController {
     	}
     }
 
+	//@ pure
     @FXML
     private void removePlayList() {
     	PlayList playList = playListTable.getSelectionModel().getSelectedItem();
@@ -274,6 +299,7 @@ public class PlayerController extends AbstractController {
     	}
     }
 
+	//@ pure
     @FXML
     private void addInPlayList() {
     	PlayList playList = playListTable.getSelectionModel().getSelectedItem();
@@ -286,6 +312,7 @@ public class PlayerController extends AbstractController {
     	}
     }
 
+	//@ pure
     @FXML
     private void removeInPlayList() {
     	Music music = playTable.getSelectionModel().getSelectedItem();
@@ -301,6 +328,7 @@ public class PlayerController extends AbstractController {
     /**
      * Carregar dos arquivos de um pasta
      */
+	//@ pure
     @FXML
     private void addDir() {
 		// Show select directory dialog
@@ -323,6 +351,7 @@ public class PlayerController extends AbstractController {
     /**
      * Carregar arquivos especificos
      */
+	//@ pure
     @FXML
     private void addFile() {
 		FileChooser fileChooser = new FileChooser();
@@ -339,6 +368,7 @@ public class PlayerController extends AbstractController {
 		}
 	}
 
+	//@ pure
     @FXML
     private void removeMusic() {
     	if(!musicTable.getItems().isEmpty()) {
@@ -351,11 +381,13 @@ public class PlayerController extends AbstractController {
     /**
      * Finalizar App
      */
+	//@ pure
     @FXML
     private void exit() {
     	mainApp.exit();
     }
 
+	//@ pure
     @FXML
     private void showRootUser() throws IOException {
 		RootUserController controller = getInstance(RootUserController.class, stage);
@@ -366,6 +398,7 @@ public class PlayerController extends AbstractController {
     /**
      * Metodo template para criacao da fucoes de duplo click em tabelas
      */
+	//@ pure
     private <T extends Playable> Callback<TableView<T>,TableRow<T>> getRowFactoryDoubleClick() {
 		return tv -> {
     	    TableRow<T> row = new TableRow<>();
